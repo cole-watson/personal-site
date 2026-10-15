@@ -1,0 +1,81 @@
+@import "tailwindcss";
+
+/* Dark styles key off data-theme, which the inline script in layout.tsx sets before first paint. */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+:root {
+  --bg: #f5f1e8;
+  --surface: #fbf9f3;
+  --surface-2: #ece6d8;
+  --fg: #22261f;
+  --muted: #6b6f60;
+  --line: #ddd6c6;
+  --accent: #2f5d46;
+  --accent-fg: #f5f1e8;
+  --accent-soft: #dbe6dc;
+  color-scheme: light;
+}
+
+/* No-JS fallback: follow the OS. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #161915;
+    --surface: #1d211c;
+    --surface-2: #262b24;
+    --fg: #ece8dd;
+    --muted: #a3a796;
+    --line: #333a31;
+    --accent: #8fc1a3;
+    --accent-fg: #142019;
+    --accent-soft: #24352b;
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: #161915;
+  --surface: #1d211c;
+  --surface-2: #262b24;
+  --fg: #ece8dd;
+  --muted: #a3a796;
+  --line: #333a31;
+  --accent: #8fc1a3;
+  --accent-fg: #142019;
+  --accent-soft: #24352b;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-accent-fg: var(--accent-fg);
+  --color-accent-soft: var(--accent-soft);
+  --font-sans: var(--font-inter);
+  --font-serif: var(--font-fraunces);
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--accent-fg);
+}
