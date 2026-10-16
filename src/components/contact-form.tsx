@@ -2,6 +2,7 @@
 
 import { useActionState, useEffect, useRef } from "react";
 import { sendMessage, type ContactState } from "@/app/actions";
+import { PaperPlane } from "./doodles";
 
 const initialState: ContactState = { status: "idle" };
 
@@ -22,9 +23,15 @@ export function ContactForm() {
 
   if (state.status === "success") {
     return (
-      <div role="status" className="rounded-2xl border border-accent bg-accent-soft p-8">
-        <p className="font-serif text-2xl">Thanks, message sent!</p>
-        <p className="mt-2 text-muted">I&apos;ll get back to you soon.</p>
+      <div
+        role="status"
+        className="flex flex-wrap items-center justify-between gap-6 rounded-2xl border border-accent bg-accent-soft p-8"
+      >
+        <div>
+          <p className="font-serif text-2xl">Thanks, message sent!</p>
+          <p className="mt-2 text-muted">I&apos;ll get back to you soon.</p>
+        </div>
+        <PaperPlane />
       </div>
     );
   }

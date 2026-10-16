@@ -1,3 +1,4 @@
+import { EyebrowMark } from "./doodles";
 import { Reveal } from "./reveal";
 
 export function Section({
@@ -14,7 +15,10 @@ export function Section({
   return (
     <section id={id} aria-labelledby={`${id}-title`} className="py-20 sm:py-28">
       <Reveal>
-        <p className="text-sm font-medium uppercase tracking-[0.18em] text-accent">{eyebrow}</p>
+        <p className="flex items-center gap-2 text-sm font-medium uppercase tracking-[0.18em] text-accent">
+          <EyebrowMark />
+          {eyebrow}
+        </p>
         <h2
           id={`${id}-title`}
           className="mt-3 font-serif text-3xl font-medium tracking-tight sm:text-4xl"

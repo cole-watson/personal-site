@@ -13,6 +13,8 @@
   --accent: #2f5d46;
   --accent-fg: #f5f1e8;
   --accent-soft: #dbe6dc;
+  /* Warm highlight for decorative SVGs (hero underline, sparkle) */
+  --highlight: #d9a83f;
   color-scheme: light;
 }
 
@@ -28,6 +30,7 @@
     --accent: #8fc1a3;
     --accent-fg: #142019;
     --accent-soft: #24352b;
+    --highlight: #e3b95a;
     color-scheme: dark;
   }
 }
@@ -42,6 +45,7 @@
   --accent: #8fc1a3;
   --accent-fg: #142019;
   --accent-soft: #24352b;
+  --highlight: #e3b95a;
   color-scheme: dark;
 }
 

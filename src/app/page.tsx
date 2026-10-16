@@ -16,7 +16,7 @@ export default function Home() {
         Skip to content
       </a>
       <Nav />
-      <main id="main" className="mx-auto max-w-5xl px-5 sm:px-8">
+      <main id="main" className="mx-auto max-w-5xl overflow-x-clip px-5 sm:px-8">
         <Hero />
 
         <Section id="about" eyebrow="About" title="A little about me">

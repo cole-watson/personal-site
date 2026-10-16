@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { profile } from "@/content/resume";
 import { hasPublicFile } from "@/lib/public-file";
+import { Sparkles, Squiggle } from "./doodles";
 import { Reveal } from "./reveal";
 
 const HEADSHOT = "headshot.png";
@@ -15,18 +16,26 @@ export function Hero() {
       <div>
         <Reveal>
           <p className="inline-flex items-center gap-2 rounded-full border border-line bg-surface px-3 py-1 text-sm text-muted">
-            <span className="size-2 rounded-full bg-accent" aria-hidden />
+            <span className="relative flex size-2" aria-hidden>
+              <span className="absolute inline-flex size-full rounded-full bg-accent opacity-60 motion-safe:animate-ping" />
+              <span className="relative size-2 rounded-full bg-accent" />
+            </span>
             {profile.location}
           </p>
         </Reveal>
         <Reveal delay={0.05}>
           <h1 className="mt-6 font-serif text-5xl leading-[1.05] font-medium tracking-tight text-balance sm:text-6xl">
             Hi, I&apos;m {profile.name.split(" ")[0]}.
-            <span className="block text-accent">{profile.title}.</span>
+            <span className="block">
+              <span className="relative inline-block text-accent">
+                {profile.title}.
+                <Squiggle className="absolute -bottom-8 left-0 w-full" />
+              </span>
+            </span>
           </h1>
         </Reveal>
         <Reveal delay={0.1}>
-          <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted text-pretty">
+          <p className="mt-10 max-w-xl text-lg leading-relaxed text-muted text-pretty">
             {profile.intro}
           </p>
         </Reveal>
@@ -76,6 +85,7 @@ export function Hero() {
               </div>
             )}
           </div>
+          <Sparkles />
         </div>
       </Reveal>
     </section>
