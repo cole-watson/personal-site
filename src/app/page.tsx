@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { ContactForm } from "@/components/contact-form";
 import { Experience } from "@/components/experience";
 import { Hero } from "@/components/hero";
@@ -5,8 +6,14 @@ import { Nav } from "@/components/nav";
 import { Reveal } from "@/components/reveal";
 import { Section } from "@/components/section";
 import { employer, profile, roles, skills } from "@/content/resume";
+import { hasPublicFile } from "@/lib/public-file";
+
+// Official school logo, if one has been dropped into public/.
+const SCHOOL_LOGOS = ["uo-logo.svg", "uo-logo.png"];
 
 export default function Home() {
+  const schoolLogo = SCHOOL_LOGOS.find(hasPublicFile);
+
   return (
     <>
       <a
@@ -28,9 +35,21 @@ export default function Home() {
             </Reveal>
             <Reveal delay={0.1}>
               <div className="rounded-2xl border border-line bg-surface p-6">
-                <p className="text-sm font-medium text-muted">Education</p>
-                <p className="mt-2 font-serif text-xl">{profile.education.school}</p>
-                <p className="mt-1 text-sm">{profile.education.degree}</p>
+                <div className="flex items-center gap-3">
+                  {schoolLogo && (
+                    // Decorative: the school name sits right beside it.
+                    <Image
+                      src={`/${schoolLogo}`}
+                      alt=""
+                      width={48}
+                      height={48}
+                      unoptimized
+                      className="size-12 shrink-0 object-contain"
+                    />
+                  )}
+                  <p className="font-serif text-xl">{profile.education.school}</p>
+                </div>
+                <p className="mt-4 text-sm">{profile.education.degree}</p>
                 <p className="mt-1 text-sm text-muted">
                   {profile.education.year} · {profile.education.note}
                 </p>
@@ -67,14 +86,10 @@ export default function Home() {
           <div className="grid gap-10 md:grid-cols-[1fr_1.4fr]">
             <Reveal className="space-y-6">
               <p className="text-lg leading-relaxed text-muted">
-                Whether it&apos;s a role, a project, or just a question, my inbox is open.
+                Whether it&apos;s a role, a project, or just a question, send me a note and I&apos;ll get back to
+                you.
               </p>
               <ul className="space-y-3 text-sm">
-                <li>
-                  <a className="underline-offset-4 hover:text-accent hover:underline" href={`mailto:${profile.email}`}>
-                    {profile.email}
-                  </a>
-                </li>
                 <li>
                   <a
                     className="underline-offset-4 hover:text-accent hover:underline"

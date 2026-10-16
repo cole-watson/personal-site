@@ -16,7 +16,6 @@ export const profile = {
   name: "Cole Watson",
   title: "Lead Software Engineer",
   location: "Portland, OR",
-  email: "cole.j.watson@gmail.com",
   linkedin: "https://www.linkedin.com/in/cole-j-watson",
   intro:
     "I design and build enterprise applications end to end, from frontend platforms to backend services and cloud infrastructure. I work closely with the people who use them to get the problem right, and I lead a team of engineers who ship the solutions with me.",

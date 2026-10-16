@@ -75,7 +75,7 @@ export async function sendMessage(_prev: ContactState, formData: FormData): Prom
     console.error("Contact form is not configured: set RESEND_API_KEY and CONTACT_TO_EMAIL.");
     return {
       status: "error",
-      message: "The contact form isn't set up yet. Please email me directly.",
+      message: "The contact form isn't working right now. Please reach out on LinkedIn instead.",
       values,
     };
   }
@@ -93,7 +93,7 @@ export async function sendMessage(_prev: ContactState, formData: FormData): Prom
     console.error("Resend error:", error);
     return {
       status: "error",
-      message: "Something went wrong sending your message. Please email me directly.",
+      message: "Something went wrong sending your message. Please try again, or reach out on LinkedIn.",
       values,
     };
   }
