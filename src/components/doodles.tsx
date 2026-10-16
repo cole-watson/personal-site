@@ -1,6 +1,7 @@
 "use client";
 
-import { motion, useReducedMotion } from "motion/react";
+import { animate, motion, useMotionValue, useReducedMotion, useTransform } from "motion/react";
+import { useEffect, useRef } from "react";
 
 const draw = { duration: 0.9, ease: [0.65, 0, 0.35, 1] as const };
 
@@ -68,28 +69,61 @@ export function Sparkles() {
   );
 }
 
-/** Paper plane that flies in along its trail once a message is sent. */
+const flightPath =
+  "M6 58 C 30 62, 50 56, 62 46 C 74 36, 66 24, 56 30 C 46 36, 60 50, 82 46 C 104 42, 124 32, 138 24";
+
+/** Paper plane that loops along its trail, nose following the curve, once a message is sent. */
 export function PaperPlane() {
-  const flight = { duration: 1.1, ease: [0.22, 1, 0.36, 1] as const };
+  const trail = useRef<SVGPathElement>(null);
+  const plane = useRef<SVGGElement>(null);
+  const progress = useMotionValue(0);
+  const planeOpacity = useTransform(progress, [0, 0.08], [0, 1]);
+  const reduce = useReducedMotion();
+
+  useEffect(() => {
+    const path = trail.current;
+    const g = plane.current;
+    if (!path || !g) return;
+    const length = path.getTotalLength();
+
+    // Sit the plane on the trail at `p`, rotated to the curve's direction there.
+    const place = (p: number) => {
+      const at = Math.max(p * length, 1);
+      const a = path.getPointAtLength(at - 1);
+      const b = path.getPointAtLength(at);
+      const deg = (Math.atan2(b.y - a.y, b.x - a.x) * 180) / Math.PI;
+      g.setAttribute("transform", `translate(${b.x} ${b.y}) rotate(${deg})`);
+    };
+
+    if (reduce) {
+      progress.set(1);
+      place(1);
+      return;
+    }
+    const unsubscribe = progress.on("change", place);
+    place(progress.get());
+    const controls = animate(progress, 1, { duration: 1.4, ease: [0.45, 0, 0.2, 1] });
+    return () => {
+      unsubscribe();
+      controls.stop();
+    };
+  }, [progress, reduce]);
+
   return (
-    <svg aria-hidden viewBox="0 0 160 70" fill="none" className="h-16 w-auto shrink-0">
+    <svg aria-hidden viewBox="0 0 160 70" fill="none" className="h-20 w-auto shrink-0">
       <motion.path
-        d="M4 62 C 40 66, 60 30, 90 40 S 118 30, 126 21"
+        ref={trail}
+        d={flightPath}
         stroke="var(--accent)"
         strokeWidth={2}
         strokeLinecap="round"
         strokeOpacity={0.45}
-        initial={{ pathLength: 0 }}
-        animate={{ pathLength: 1 }}
-        transition={flight}
+        style={{ pathLength: progress }}
       />
-      <motion.g
-        initial={{ opacity: 0, x: -110, y: 40, rotate: 12 }}
-        animate={{ opacity: 1, x: 0, y: 0, rotate: 0 }}
-        transition={flight}
-      >
-        <path d="M156 8 L124 20 L136 24 Z" fill="var(--accent)" />
-        <path d="M156 8 L136 24 L140 34 Z" fill="var(--accent)" opacity="0.65" />
+      {/* Drawn pointing along +x with its tail at the origin, so it can be placed on the path. */}
+      <motion.g ref={plane} style={{ opacity: planeOpacity }}>
+        <path d="M18 0 L-8 -9 L-2 1.5 Z" fill="var(--accent)" />
+        <path d="M18 0 L-2 1.5 L2 9 Z" fill="var(--accent)" opacity="0.65" />
       </motion.g>
     </svg>
   );
